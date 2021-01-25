@@ -4,7 +4,13 @@ A tool to synchronize system time with web servers.
 
 ## Examples
 
-Get time from multiple URLs
+Synchronize time from multiple URLs
+
+```bash
+htpdate -s www.pool.ntp.org www.openssl.org nodejs.org
+```
+
+Query time from multiple URLs
 
 ```bash
 htpdate www.pool.ntp.org www.openssl.org nodejs.org
@@ -13,7 +19,7 @@ htpdate www.pool.ntp.org www.openssl.org nodejs.org
 Change default protocol to 'http'
 
 ```bash
-htpdate --protocol http www.pool.ntp.org
+htpdate -s -p http www.pool.ntp.org
 ```
 
 Mix http url and https url
