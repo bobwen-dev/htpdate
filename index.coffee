@@ -94,22 +94,19 @@ get_time_delta = (url) ->
     catch e
       if not e.response?
         console.log "#{step}#{e}"
-        wait_ms = argv.interval + start_at - Date.now()
-        if wait_ms > 0
-          await delay wait_ms 
+        await delay argv.interval + start_at - Date.now()
         continue 
-      r = e.response
-    wait_ms = argv.interval + start_at - Date.now()
-    if wait_ms > 0
-      await delay wait_ms 
+      r = e.response 
     duration = r.timings.end - r.timings.upload
     server_moment = dayjs r.headers.date
     delta = Math.round(server_moment - r.timings.end - duration / 2 + 500)
     console.log "#{step}" + "#{delta} ms".padStart 10
+    await delay argv.interval + start_at - Date.now()
     delta
 
 
 delay = util.promisify (ms, cb) ->
+  return cb() if ms <= 0
   setTimeout cb, ms
 
 
