@@ -26,10 +26,9 @@ DEFAULT_OPTIONS = {
 print_version = -> 
   console.log """
     #{info.name} #{info.version}, #{info.description}
-
-    Copyright (C) 2021 Bob Wen. All rights reserved.
-
     License: AGPL-3.0
+    Homepage: #{info.homepage}
+    Copyright (C) 2021 Bob Wen. All rights reserved.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as 
