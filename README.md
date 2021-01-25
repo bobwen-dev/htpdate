@@ -71,3 +71,14 @@ htpdate www.pool.ntp.org
  -v, --version          display the version of htpdate and exit
                         Default: false
 ```
+
+## Install
+
+### Precompiled package
+Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
+
+### Install by npm
+
+```bash
+npm i -g https://github.com/bobwen-dev/htpdate
+```
