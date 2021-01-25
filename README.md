@@ -22,7 +22,7 @@ Change default protocol to 'http'
 htpdate -s -p http www.pool.ntp.org
 ```
 
-Mix http url and https url
+Mix http and https URLs
 
 ```bash
 htpdate -s http://www.pool.ntp.org https://www.openssl.org
@@ -37,11 +37,13 @@ htpdate -s www.pool.ntp.org
 
 
 ## Usage
-`htpdate [options...] urls...`
+
+`htpdate [options...] URLs...`
 
 ### Options
+
 ```
- -c, --count            The number of requests for each url
+ -c, --count            The number of requests for each URL
                         Default: 4
 
  -C, --command          Command to adjust system time, in https://day.js.org/ display format
@@ -57,7 +59,7 @@ htpdate -s www.pool.ntp.org
  -m, --method           HTTP method
                         Default: 'HEAD'
 
- -p, --protocol         Use this protocol when no protocol is specified in the url
+ -p, --protocol         Use this protocol when no protocol is specified in the URL
                         Default: 'https'
 
  -r, --redirect         If redirect responses should be followed
@@ -81,11 +83,12 @@ htpdate -s www.pool.ntp.org
 
 ## Install
 
-### Precompiled package
-Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
+- Precompiled package
 
-### Install by npm
+  Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
 
-```bash
-npm i -g https://github.com/bobwen-dev/htpdate
-```
+- Install by npm
+
+  ```bash
+  npm i -g https://github.com/bobwen-dev/htpdate
+  ```
