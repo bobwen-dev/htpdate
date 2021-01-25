@@ -20,7 +20,7 @@ argv = require('./argv') {
     type: 'boolean'
   }
   protocol: {
-    describe: 'Use this protocol when no protocol is specified in the url'
+    describe: 'Use this protocol when no protocol is specified in the URL'
     alias: 'p'
     default: 'https'
     type: 'string'
@@ -32,7 +32,7 @@ argv = require('./argv') {
     type: 'string'
   }
   count: {
-    describe: 'The number of requests for each url'
+    describe: 'The number of requests for each URL'
     alias: 'c'
     default: 4
     type: 'number'

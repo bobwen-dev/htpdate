@@ -63,7 +63,7 @@ print_usage = (options) ->
   items = orderBy items, (v) -> v.alias ? v.key
   console.log """
     #{info.name} #{info.version}, #{info.description}
-    Usage: #{info.name} [options...] urls...
+    Usage: #{info.name} [options...] URLs...
     
     Options
     """
@@ -92,7 +92,7 @@ print_examples = (exam = []) ->
       Change default protocol to 'http'
         #{info.name} -s -p http www.pool.ntp.org
 
-      Mix http url and https url
+      Mix http and https URLs
         #{info.name} -s http://www.pool.ntp.org https://www.openssl.org
 
       Access through a http proxy
@@ -117,7 +117,7 @@ module.exports = (opt, exam) ->
     console.log()
     if argv.help
       process.exit 0
-    console.error "\nError: Missing server url, at least one url should be specified"
+    console.error "\nError: Missing server URL, at least one URL should be specified"
     process.exit 0
   if argv.count < 1
     argv.count = 1
