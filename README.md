@@ -45,7 +45,8 @@ htpdate -s www.pool.ntp.org
                         Default: 4
 
  -C, --command          Command to adjust system time, in https://day.js.org/ display format
-                        Default: '[time ]HH:mm:ss.SS[ && date ]YYYY-MM-DD'
+                        Default(Linux/Mac): '[date -s ]YYYY-MM-DDTHH:mm:ss.SSSZ'
+                        Default(Windows): '[time ]HH:mm:ss.SS[ && date ]YYYY-MM-DD'
 
  -h, --help             This help text
                         Default: false
