@@ -83,7 +83,7 @@ htpdate -s www.pool.ntp.org
 
 ## Install Precompiled package
 
-Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
+Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable.
 
 ## Compile
 
@@ -93,3 +93,9 @@ cd htpdate
 npm install
 npm run build
 ```
+
+## License
+
+© 2020 Bob Wen
+
+Licensed under GNU Affero General Public License v3.0 or later.
