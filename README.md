@@ -81,14 +81,15 @@ htpdate -s www.pool.ntp.org
                         Default: false
 ```
 
-## Install
+## Install Precompiled package
 
-- Precompiled package
+Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
 
-  Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
+## Compile from source code
 
-- Install by npm
-
-  ```bash
-  npm i -g https://github.com/bobwen-dev/htpdate
-  ```
+```bash
+git clone https://github.com/bobwen-dev/htpdate
+cd htpdate
+npm install
+npm run build
+```
