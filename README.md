@@ -85,7 +85,7 @@ htpdate -s www.pool.ntp.org
 
 Download the precompiled binary package from [Releases page](https://github.com/bobwen-dev/htpdate/releases), uncompress it, and run it independently as an executable
 
-## Compile from source code
+## Compile
 
 ```bash
 git clone https://github.com/bobwen-dev/htpdate
