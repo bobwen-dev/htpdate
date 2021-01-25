@@ -111,6 +111,9 @@ delay = util.promisify (ms, cb) ->
 
 
 do ->
+  proxy = process.env.http_proxy or process.env.https_proxy
+  if proxy not in [undefined, ''] 
+    console.debug "Using explicit proxy server #{proxy}"
   values = []
   for url in argv._
     values.push (await get_time_delta url)...
