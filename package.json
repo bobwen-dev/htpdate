@@ -1,0 +1,53 @@
+{
+  "name": "htpdate",
+  "version": "1.0.0",
+  "description": "a tool to synchronize system time with web servers",
+  "keywords": [
+    "htp",
+    "htpdate",
+    "ntp",
+    "ntp-client"
+  ],
+  "author": {
+    "name": "Bob Wen",
+    "email": "bobwen@tutanota.com",
+    "url": "https://github.com/bobwen-dev"
+  },
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://github.com/bobwen-dev/htpdate",
+  "bugs": {
+    "url": "https://github.com/bobwen-dev/htpdate/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobwen-dev/htpdate.git"
+  },
+  "scripts": {
+    "compile": "npx coffee -bc --no-header ./",
+    "clean": "rm *.js",
+    "b": "npx nexe -i index.js -r node_modules/**/package.json",
+    "b-win-x86": "npm run b -- -t windows-x86-14.15.3 -o dists/htpdate-x86.exe",
+    "b-win-x64": "npm run b -- -t windows-x64-14.15.4 -o dists/htpdate-x64.exe",
+    "b-linux-x64": "npm run b -- -t linux-x64-14.15.3 -o dists/htpdate-linux-x64",
+    "b-linux-arm64": "npm run b -- -t linux-arm64-14.15.4 -o dists/htpdate-linux-arm64",
+    "b-mac-x64": "npm run b -- -t mac-x64-14.15.3 -o dists/htpdate-mac-x64",
+    "b-all": "npm run b-win-x86 && npm run b-win-x64 && npm run b-linux-x64 && npm run b-linux-arm64 && npm run b-mac-x64",
+    "build": "npm run compile && npm run b-all && npm run clean",
+    "test": "npx coffee index.coffee www.pool.ntp.org"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.3",
+    "got": "^11.8.0",
+    "minimist": "^1.2.5",
+    "minimist-options": "^4.1.0",
+    "natural-orderby": "^2.0.3"
+  },
+  "devDependencies": {
+    "coffeescript": "^2.5.1",
+    "nexe": "^4.0.0-beta.16"
+  }
+}
