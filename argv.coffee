@@ -83,18 +83,21 @@ print_usage = (options) ->
 print_examples = (exam = []) ->
   console.log """
     Examples
-      Get time from multiple URLs
+      Synchronize time from multiple URLs
+        #{info.name} -s www.pool.ntp.org www.openssl.org nodejs.org
+
+      Query time from multiple URLs
         #{info.name} www.pool.ntp.org www.openssl.org nodejs.org
 
       Change default protocol to 'http'
-        #{info.name} --protocol http www.pool.ntp.org
+        #{info.name} -s -p http www.pool.ntp.org
 
       Mix http url and https url
-        #{info.name} http://www.pool.ntp.org https://www.openssl.org
+        #{info.name} -s http://www.pool.ntp.org https://www.openssl.org
 
       Access through a http proxy
         #{if platform is 'win32' then 'set' else 'export'} http_proxy=http://127.0.0.1:8118
-        #{info.name} www.pool.ntp.org
+        #{info.name} -s www.pool.ntp.org
     """
 
 

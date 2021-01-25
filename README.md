@@ -25,14 +25,14 @@ htpdate -s -p http www.pool.ntp.org
 Mix http url and https url
 
 ```bash
-htpdate http://www.pool.ntp.org https://www.openssl.org
+htpdate -s http://www.pool.ntp.org https://www.openssl.org
 ```
 
 Access through a http proxy
 
 ```bash
 export http_proxy=http://127.0.0.1:8118
-htpdate www.pool.ntp.org
+htpdate -s www.pool.ntp.org
 ```
 
 
