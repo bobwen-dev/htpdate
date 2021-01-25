@@ -25,7 +25,7 @@ htpdate http://www.pool.ntp.org https://www.openssl.org
 Access through a http proxy
 
 ```bash
-set http_proxy=http://127.0.0.1:8118
+export http_proxy=http://127.0.0.1:8118
 htpdate www.pool.ntp.org
 ```
 
