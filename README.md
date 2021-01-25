@@ -98,4 +98,4 @@ npm run build
 
 © 2020 Bob Wen
 
-Licensed under GNU Affero General Public License v3.0 or later.
+Licensed under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) or later.
