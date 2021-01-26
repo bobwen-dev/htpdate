@@ -1,6 +1,6 @@
 # htpdate
 
-A tool to synchronize system time from web servers, for linux, windows and macos. 
+A tool to synchronize system time from web servers, for linux, windows and macos. [Download](https://github.com/bobwen-dev/htpdate/releases)
 
 ## Examples
 
