@@ -53,6 +53,12 @@ argv = require('./argv') {
     default: 6000
     type: 'number'
   }
+  insecure: {
+    describe: 'Allow insecure server connections when using SSL'
+    alias: 'k'
+    default: false
+    type: 'boolean'
+  }
   command: {
     describe: 'Command to adjust system time, in https://day.js.org/ display format'
     alias: 'C'
@@ -83,6 +89,9 @@ req_opt = {
   cache: false
   headers: {
     'user-agent': argv['user-agent']
+  }
+  https: {
+    rejectUnauthorized: not argv.insecure
   }
 }
 

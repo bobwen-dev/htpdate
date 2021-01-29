@@ -56,6 +56,9 @@ htpdate -s www.pool.ntp.org
  -i, --interval         The minimum milliseconds between requests
                         Default: 500
 
+ -k, --insecure         Allow insecure server connections when using SSL
+                        Default: false
+
  -m, --method           HTTP method
                         Default: 'HEAD'
 
