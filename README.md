@@ -80,7 +80,7 @@ htpdate -s www.pool.ntp.org
                         Default: 6000
 
  -u, --user-agent
-                        Default: 'htpdate/1.0.0'
+                        Default: 'htpdate/1.0.1'
 
  -v, --version          display the version of htpdate and exit
                         Default: false
