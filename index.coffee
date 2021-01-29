@@ -56,7 +56,7 @@ argv = require('./argv') {
     type: 'number'
   }
   insecure: {
-    describe: 'Allow insecure server connections when using SSL'
+    describe: 'Allow insecure server connections when using https'
     alias: 'k'
     default: false
     type: 'boolean'

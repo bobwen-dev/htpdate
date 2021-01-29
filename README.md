@@ -35,14 +35,13 @@ export http_proxy=http://127.0.0.1:8118
 htpdate -s www.pool.ntp.org
 ```
 
-
 ## Usage
 
 `htpdate [options...] URLs...`
 
 ### Options
 
-```
+```text
  -c, --count            The number of requests for each URL
                         Default: 4
 
@@ -56,7 +55,7 @@ htpdate -s www.pool.ntp.org
  -i, --interval         The minimum milliseconds between requests
                         Default: 500
 
- -k, --insecure         Allow insecure server connections when using SSL
+ -k, --insecure         Allow insecure server connections when using https
                         Default: false
 
  -m, --method           HTTP method
