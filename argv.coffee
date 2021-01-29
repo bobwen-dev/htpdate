@@ -121,4 +121,6 @@ module.exports = (opt, exam) ->
     process.exit 0
   if argv.count < 1
     argv.count = 1
+  if argv.retry < 0
+    argv.retry = 0
   argv

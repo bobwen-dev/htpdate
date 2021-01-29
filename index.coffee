@@ -37,9 +37,14 @@ argv = require('./argv') {
     default: 4
     type: 'number'
   }
+  retry: {
+    alias: 'r'
+    default: 0
+    type: 'number'
+  }
   redirect: {
     describe: 'If redirect responses should be followed'
-    alias: 'r'
+    alias: 'R'
     default: false
     type: 'boolean'
   }
@@ -82,26 +87,34 @@ req_opt = {
 }
 
 
+get_server_time = (url) ->
+  try
+    return await got url, req_opt
+  catch e
+    return e.response if e.response?.timings?
+    throw e
+
+
 get_time_delta = (url) ->
   if not /^https?:\/\//.test url
     url = "#{argv.protocol}://#{url}"
   console.log "#{argv.method} #{url}"
   for i in [1 .. argv.count]
     step = "\##{i}: ".padStart 8
-    start_at = Date.now()
-    try
-      r = await got url, req_opt
-    catch e
-      if not e.response?
+    for retry in [0 .. argv.retry]
+      try
+        r = await get_server_time url
+        server_moment = + dayjs r.headers.date
+      catch e
         console.log "#{step}#{e}"
-        await delay argv.interval + start_at - Date.now()
-        continue 
-      r = e.response 
-    duration = r.timings.end - r.timings.upload
-    server_moment = dayjs r.headers.date
+      if r?.timings?
+        await delay argv.interval + r.timings.start - Date.now()
+      if r?.timings? and server_moment?
+        break
+    continue if not server_moment?
+    duration = r.timings.response - r.timings.upload
     delta = Math.round(server_moment - r.timings.end - duration / 2 + 500)
-    console.log "#{step}" + "#{delta} ms".padStart 10
-    await delay argv.interval + start_at - Date.now()
+    console.log "#{step}" + "#{if delta > 0 then '+' else ''}#{delta} ms".padStart 10
     delta
 
 

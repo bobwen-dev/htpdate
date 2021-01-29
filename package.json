@@ -1,6 +1,6 @@
 {
   "name": "htpdate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a tool to synchronize system time from web servers",
   "keywords": [
     "htp",
