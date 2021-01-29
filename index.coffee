@@ -102,13 +102,13 @@ get_time_delta = (url) ->
   for i in [1 .. argv.count]
     step = "\##{i}: ".padStart 8
     for retry in [0 .. argv.retry]
+      start_at = Date.now()
       try
         r = await get_server_time url
         server_moment = + dayjs r.headers.date
       catch e
         console.log "#{step}#{e}"
-      if r?.timings?
-        await delay argv.interval + r.timings.start - Date.now()
+      await delay argv.interval + start_at - Date.now()
       if r?.timings? and server_moment?
         break
     continue if not server_moment?
