@@ -1,3 +1,5 @@
+#!/usr/bin/env coffee
+
 util = require 'util'
 got = require 'got'
 dayjs = require 'dayjs'
