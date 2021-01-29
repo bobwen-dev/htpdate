@@ -62,7 +62,10 @@ htpdate -s www.pool.ntp.org
  -p, --protocol         Use this protocol when no protocol is specified in the URL
                         Default: 'https'
 
- -r, --redirect         If redirect responses should be followed
+ -r, --retry
+                        Default: 0
+
+ -R, --redirect         If redirect responses should be followed
                         Default: false
 
  -s, --set              Adjust system time if necessary
