@@ -38,26 +38,20 @@ Done
 Query from multiple URLs
 
 ```bash
-$ coffee index.coffee -c 5 -v www.pool.ntp.org www.openssl.org nodejs.org
-> HEAD https://www.pool.ntp.org
->     #1:    +244 ms  DNS:    0 TCP:    0 TSL:   41 Send:    0 Recv:   76
->     #2:    +915 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   77
->     #3:    +415 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   75
->     #4:    +922 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   62
->     #5:    +384 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   75
-> HEAD https://www.openssl.org
->     #1:    +608 ms  DNS:    0 TCP:    0 TSL:  124 Send:    0 Recv:   57
->     #2:    +381 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   58
->     #3:    +864 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   61
->     #4:    +345 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   63
->     #5:    +844 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   56
-> HEAD https://nodejs.org
->     #1:    -135 ms  DNS:    0 TCP:    0 TSL: 1002 Send:    0 Recv:  202
->     #2:    +312 ms  DNS:    0 TCP:    0 TSL: 1116 Send:    0 Recv:  193
->     #3:    +563 ms  DNS:    0 TCP:    0 TSL: 2091 Send:    0 Recv:  193
->     #4:     -62 ms  DNS:    0 TCP:    0 TSL:  185 Send:    0 Recv:  189
->     #5:    +249 ms  DNS:    0 TCP:    0 TSL:  187 Send:    0 Recv:  189
-> Median:     384 ms
+$ coffee index.coffee -c 5 -v www.pool.ntp.org www.openssl.org
+HEAD https://www.pool.ntp.org
+    #1:    -419 ms  DNS:   95 TCP:   27 TSL:   43 Send:    3 Recv:   38
+    #2:    +403 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   26
+    #3:     -94 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   24
+    #4:    +372 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   46
+    #5:     -97 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   24
+HEAD https://www.openssl.org
+    #1:    +251 ms  DNS:   38 TCP:   27 TSL:   67 Send:    1 Recv:   33
+    #2:    -107 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   28
+    #3:    +396 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   25
+    #4:    -113 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   30
+    #5:    +385 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   31
+Median:    78.5 ms
 ```
 
 Change default protocol to 'http'
