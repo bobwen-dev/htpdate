@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "agentkeepalive": "^4.1.4",
-    "dayjs": "^1.10.3",
+    "dayjs": "^1.10.7",
     "got": "^11.8.0",
     "hpagent": "^0.1.2",
     "minimist": "^1.2.5",

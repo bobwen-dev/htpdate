@@ -2,7 +2,6 @@ util = require 'util'
 { spawn } = require 'child_process'
 dayjs = require 'dayjs'
 dayjs.extend require 'dayjs/plugin/utc'
-dayjs.extend require './dayjs_format_ms'
 platform = require('os').platform()
 
 
