@@ -42,6 +42,9 @@
     "test": "npx coffee index.coffee www.pool.ntp.org"
   },
   "main": "index.js",
+  "bin": {
+    "htpdate": "index.coffee"
+  },
   "engines": {
     "node": ">=10.19.0"
   },
