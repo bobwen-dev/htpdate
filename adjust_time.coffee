@@ -1,6 +1,7 @@
 util = require 'util'
 { spawn } = require 'child_process'
 dayjs = require 'dayjs'
+dayjs.extend require 'dayjs/plugin/utc'
 dayjs.extend require './dayjs_format_ms'
 platform = require('os').platform()
 
@@ -25,14 +26,14 @@ adjust_time = (delta) ->
       await wait_data() if platform in ['win32']
       cb p...
   await wait_data() if platform in ['win32']
-  cmd = dayjs().add(delta, 'ms').format adjust_time.command
+  cmd = dayjs().add(delta, 'ms').utc().format adjust_time.command
   await input_line cmd
   await input_line 'exit'
 
 
 COMMANDS = {
-  win32: '[time ]HH:mm:ss.SS[ && date ]YYYY-MM-DD'
-  linux: '[date -s ]YYYY-MM-DDTHH:mm:ss.SSSZ'
+  win32: '[wmic OS Set localdatetime=]YYYYMMDDmmss.SSS[000][+000]'
+  linux: '[date --utc -set=]YYYY-MM-DDTHH:mm:ss.SSS'
 }
 adjust_time.command = COMMANDS[platform] or COMMANDS.linux
 

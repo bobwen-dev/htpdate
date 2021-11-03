@@ -17,7 +17,7 @@ DEFAULT_OPTIONS = {
   version: {
     describe: "display the version of #{info.name} and exit"
     type: 'boolean'
-    alias: 'v'
+    alias: 'V'
     default: false
   }
 }
@@ -26,6 +26,7 @@ DEFAULT_OPTIONS = {
 print_version = -> 
   console.log """
     #{info.name} #{info.version}, #{info.description}
+
     License: AGPL-3.0
     Copyright (C) 2021 Bob Wen. All rights reserved.
     Homepage: #{info.homepage}
@@ -40,14 +41,16 @@ print_version = ->
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
     Affero General Public License for more details.
 
+
     Libraries:
+
     """
   for lib_name, version of info.dependencies
     lib_info = require "./node_modules/#{lib_name}/package.json"
     console.log """
       #{lib_info.name} #{lib_info.version}
-      License: #{lib_info.license}
-      Homepage: #{lib_info.homepage.split('#')[0]}
+      License: #{lib_info.license or ''}
+      Homepage: #{lib_info.homepage?.split('#')[0] or ''}
 
       """
 
@@ -123,4 +126,6 @@ module.exports = (opt, exam) ->
     argv.count = 1
   if argv.retry < 0
     argv.retry = 0
+  argv['user-agent'] = argv['user-agent'].trim() if argv['user-agent']
+  argv['user-agent'] = undefined if argv['user-agent'] == ''
   argv

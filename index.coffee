@@ -2,6 +2,8 @@
 
 util = require 'util'
 got = require 'got'
+Agent = require 'agentkeepalive'
+{ HttpProxyAgent, HttpsProxyAgent } = require('hpagent')
 dayjs = require 'dayjs'
 info = require './package.json'
 median = require './median'
@@ -33,6 +35,11 @@ argv = require('./argv') {
     default: 'HEAD'
     type: 'string'
   }
+  http2: {
+    describe: 'Try to choose either HTTP/1.1 or HTTP/2 depending on the ALPN protocol'
+    default: false
+    type: 'boolean'
+  }
   count: {
     describe: 'The number of requests for each URL'
     alias: 'c'
@@ -62,7 +69,7 @@ argv = require('./argv') {
     type: 'boolean'
   }
   command: {
-    describe: 'Command to adjust system time, in https://day.js.org/ display format'
+    describe: 'Command to adjust system time, in https://day.js.org/ UTC format'
     alias: 'C'
     default: adjust_time.command
     type: 'string'
@@ -75,12 +82,38 @@ argv = require('./argv') {
   }
   'user-agent': {
     alias: 'u'
-    default: "#{info.name}/#{info.version}"
     type: 'string'
+  }
+  verbose: {
+    describe: 'Make the operation more talkative'
+    alias: 'v'
+    default: false
+    type: 'boolean'
   }
 }
 adjust_time.command = argv.command
 
+agent_opt = {
+  keepAlive: true,
+  keepAliveMsecs: 60000,
+  maxSockets: 1,
+}
+proxy = process.env.http_proxy || process.env.https_proxy
+agent = if proxy not in [undefined, '']
+  agent_opt = {
+    agent_opt...
+    freeSocketTimeout: 30000
+    proxy
+  }
+  {
+    http:  new HttpProxyAgent  agent_opt
+    https: new HttpsProxyAgent agent_opt
+  }
+else
+  {
+    http:  new Agent agent_opt
+    https: new Agent.HttpsAgent agent_opt
+  }
 
 req_opt = {
   method: argv.method.trim().toUpperCase()
@@ -89,18 +122,20 @@ req_opt = {
   retry: 0
   dnsCache: true
   cache: false
+  agent
   headers: {
     'user-agent': argv['user-agent']
   }
   https: {
     rejectUnauthorized: not argv.insecure
   }
+  http2: argv.http2
 }
 
-
+client = got.extend {}
 get_server_time = (url) ->
   try
-    return await got url, req_opt
+    return await client url, req_opt
   catch e
     return e.response if e.response?.timings?
     throw e
@@ -123,9 +158,22 @@ get_time_delta = (url) ->
       if r?.timings? and server_moment?
         break
     continue if not server_moment?
-    duration = r.timings.response - r.timings.upload
-    delta = Math.round(server_moment - r.timings.end - duration / 2 + 500)
-    console.log "#{step}" + "#{if delta > 0 then '+' else ''}#{delta} ms".padStart 10
+    if not r.timings.secureConnect?
+      upload_at = r.timings.connect
+    else
+      upload_at = r.timings.secureConnect
+    duration = r.timings.response - upload_at
+    delta = Math.round(server_moment - r.timings.response - duration / 2) + 500
+    delta_text = "#{if delta > 0 then '+' else ''}#{delta} ms".padStart 10
+    if not argv.verbose
+      console.log "#{step}#{delta_text}"
+    else
+      details = "  DNS:" + "#{r.timings.phases.dns}".padStart 5
+      details += " TCP:" +  "#{r.timings.phases.tcp}".padStart 5
+      details += " TSL:" + "#{if r.timings.phases.tls? then r.timings.phases.tls else ''}".padStart 5
+      details += " Send:" + "#{r.timings.upload - upload_at}".padStart 5
+      details += " Recv:" + "#{r.timings.response - r.timings.upload}".padStart 5
+      console.log "#{step}#{delta_text}#{details}"
     delta
 
 
@@ -135,7 +183,6 @@ delay = util.promisify (ms, cb) ->
 
 
 do ->
-  proxy = process.env.http_proxy or process.env.https_proxy
   if proxy not in [undefined, ''] 
     console.debug "Using explicit proxy server #{proxy}"
   values = []
