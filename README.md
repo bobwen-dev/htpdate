@@ -107,7 +107,7 @@ npm run build
 
 ## The principle
 
-Website returns the server's current date-time in each response's header, like this:
+Website returns a header `Date` in each response, like this:
 
 ```
 HTTP/2 200
@@ -123,7 +123,7 @@ duration = received_at - sent_at
 delta = server_time - received_at - duration / 2
 ```
 
-There is one more error to consider. Imagine you get a Date value of `23` seconds, which could be `23.000` seconds, or `23.999` seconds. So we having to give `0.5s` as compensation.
+There is one more thing to consider. Imagine you get a Date value of `23 GMT`, which could be `23.000` seconds, or `23.999` seconds. So we give `0.5s` as a compensation.
 
 ## License
 
