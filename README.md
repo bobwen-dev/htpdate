@@ -45,11 +45,14 @@ htpdate -s www.pool.ntp.org
  -c, --count            The number of requests for each URL
                         Default: 4
 
- -C, --command          Command to adjust system time, in https://day.js.org/ display format
-                        Default(Linux/Mac): '[date -s ]YYYY-MM-DDTHH:mm:ss.SSSZ'
-                        Default(Windows): '[time ]HH:mm:ss.SS[ && date ]YYYY-MM-DD'
+ -C, --command          Command to adjust system time, in https://day.js.org/ UTC format
+                        Default(Linux/Mac): '[date --utc -set=]YYYY-MM-DDTHH:mm:ss.SSS'
+                        Default(Windows): '[wmic OS Set localdatetime=]YYYYMMDDmmss.SSS[000][+000]'
 
  -h, --help             This help text
+                        Default: false
+
+     --http2            Try to choose either HTTP/1.1 or HTTP/2 depending on the ALPN protocol
                         Default: false
 
  -i, --interval         The minimum milliseconds between requests
@@ -80,9 +83,12 @@ htpdate -s www.pool.ntp.org
                         Default: 6000
 
  -u, --user-agent
-                        Default: 'htpdate/1.0.1'
+                        Type: string
 
- -v, --version          display the version of htpdate and exit
+ -V, --version          display the version of htpdate and exit
+                        Default: false
+
+ -v, --verbose          Make the operation more talkative
                         Default: false
 ```
 
@@ -101,6 +107,6 @@ npm run build
 
 ## License
 
-© 2020 Bob Wen
+© 2021 Bob Wen
 
 Licensed under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) or later.
