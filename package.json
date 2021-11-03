@@ -34,7 +34,7 @@
     "b-all": "npm run b-win-x86 && npm run b-win-x64 && npm run b-linux-x64 && npm run b-linux-arm64 && npm run b-mac-x64",
     "c-win-x86": "cd dists && cp htpdate-windows-x86.exe htpdate.exe && 7z a htpdate-windows-x86.7z htpdate.exe && rm -rf htpdate.exe",
     "c-win-x64": "cd dists && cp htpdate-windows-x64.exe htpdate.exe && 7z a htpdate-windows-x64.7z htpdate.exe && rm -rf htpdate.exe",
-    "c-linux-x64": "cd dists && cp htpdate-linux-x64 htpdate && 7z a htpdate-linux-x86.7z htpdate && rm -rf htpdate",
+    "c-linux-x64": "cd dists && cp htpdate-linux-x64 htpdate && 7z a htpdate-linux-x64.7z htpdate && rm -rf htpdate",
     "c-linux-arm64": "cd dists && cp htpdate-linux-arm64 htpdate && 7z a htpdate-linux-arm64.7z htpdate && rm -rf htpdate",
     "c-mac-x64": "cd dists && cp htpdate-mac-x64 htpdate && 7z a htpdate-mac-x64.7z htpdate && rm -rf htpdate",
     "compress": "npm run c-win-x86 && npm run c-win-x64 && npm run c-linux-x64 && npm run c-linux-arm64 && npm run c-mac-x64",
