@@ -91,7 +91,7 @@ htpdate -s www.pool.ntp.org
 
  -C, --command          Command to adjust system time, in https://day.js.org/ UTC format
                         Default(Linux/Mac): '[date --utc -set=]YYYY-MM-DDTHH:mm:ss.SSS'
-                        Default(Windows): '[wmic OS Set localdatetime=]YYYYMMDDmmss.SSS[000][+000]'
+                        Default(Windows): '[wmic OS Set localdatetime=]YYYYMMDDHHmmss.SSS[000][+000]'
 
  -h, --help             This help text
                         Default: false
