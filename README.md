@@ -6,7 +6,7 @@ A tool to synchronize system time from web servers, for linux, windows and macos
 
 Synchronize time from multiple URLs
 
-```bash
+```text
 C:\> htpdate -s www.pool.ntp.org www.openssl.org nodejs.org
 HEAD https://www.pool.ntp.org
     #1: +367325 ms
@@ -37,7 +37,7 @@ Done
 
 Query from multiple URLs
 
-```bash
+```text
 $ coffee index.coffee -c 5 -v www.pool.ntp.org www.openssl.org
 HEAD https://www.pool.ntp.org
     #1:    -419 ms  DNS:   95 TCP:   27 TSL:   43 Send:    3 Recv:   38
@@ -156,7 +156,7 @@ Date: Wed, 03 Nov 2021 11:46:19 GMT
 
 This `Date: Wed, 03 Nov 2021 11:46:19 GMT` is the moment the website was processing the request, which is between the time we sent the request and the time we received the response. Simply assuming that the period to send request and receive is equal, we can calculate that the difference between local time and website time:
 
-```js
+```text
 duration = received_at - sent_at
 delta = server_time - received_at - duration / 2
 ```
