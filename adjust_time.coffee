@@ -32,7 +32,7 @@ adjust_time = (delta) ->
 
 
 COMMANDS = {
-  win32: '[wmic OS Set localdatetime=]YYYYMMDDmmss.SSS[000][+000]'
+  win32: '[wmic os set localdatetime=]YYYYMMDDHHmmss.SSS[000][+000]'
   linux: '[date --utc -set=]YYYY-MM-DDTHH:mm:ss.SSS'
 }
 adjust_time.command = COMMANDS[platform] or COMMANDS.linux

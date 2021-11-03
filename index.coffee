@@ -185,7 +185,7 @@ delay = util.promisify (ms, cb) ->
 do ->
   if proxy not in [undefined, '']
     msg = ''
-    if argv.http2?
+    if argv.http2
       msg = ", http2 is disabled because the agent library currently used does not support this protocol"
       delete req_opt.http2
     console.debug "Using explicit proxy server #{proxy}#{msg}"

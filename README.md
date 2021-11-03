@@ -7,13 +7,57 @@ A tool to synchronize system time from web servers, for linux, windows and macos
 Synchronize time from multiple URLs
 
 ```bash
-htpdate -s www.pool.ntp.org www.openssl.org nodejs.org
+C:\> htpdate -s www.pool.ntp.org www.openssl.org nodejs.org
+HEAD https://www.pool.ntp.org
+    #1: +367325 ms
+    #2: +366966 ms
+    #3: +367462 ms
+    #4: +366960 ms
+HEAD https://www.openssl.org
+    #1: +367258 ms
+    #2: +366983 ms
+    #3: +367487 ms
+    #4: +366986 ms
+HEAD https://nodejs.org
+    #1: +367647 ms
+    #2: +367278 ms
+    #3: +367670 ms
+    #4: +367516 ms
+Median: 367301.5 ms
+Adjust time...
+>
+$ wmic os set localdatetime=20211103143426.513000+000
+> Updating property(s) of '\\TESTDEVICE\ROOT\CIMV2:Win32_OperatingSystem=@'
+$ exit
+> Property(s) update successful.
+>
+>
+Done
 ```
 
-Query time from multiple URLs
+Query from multiple URLs
 
 ```bash
-htpdate www.pool.ntp.org www.openssl.org nodejs.org
+$ coffee index.coffee -c 5 -v www.pool.ntp.org www.openssl.org nodejs.org
+> HEAD https://www.pool.ntp.org
+>     #1:    +244 ms  DNS:    0 TCP:    0 TSL:   41 Send:    0 Recv:   76
+>     #2:    +915 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   77
+>     #3:    +415 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   75
+>     #4:    +922 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   62
+>     #5:    +384 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   75
+> HEAD https://www.openssl.org
+>     #1:    +608 ms  DNS:    0 TCP:    0 TSL:  124 Send:    0 Recv:   57
+>     #2:    +381 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   58
+>     #3:    +864 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   61
+>     #4:    +345 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   63
+>     #5:    +844 ms  DNS:    0 TCP:    0 TSL:    0 Send:    0 Recv:   56
+> HEAD https://nodejs.org
+>     #1:    -135 ms  DNS:    0 TCP:    0 TSL: 1002 Send:    0 Recv:  202
+>     #2:    +312 ms  DNS:    0 TCP:    0 TSL: 1116 Send:    0 Recv:  193
+>     #3:    +563 ms  DNS:    0 TCP:    0 TSL: 2091 Send:    0 Recv:  193
+>     #4:     -62 ms  DNS:    0 TCP:    0 TSL:  185 Send:    0 Recv:  189
+>     #5:    +249 ms  DNS:    0 TCP:    0 TSL:  187 Send:    0 Recv:  189
+> Median:     384 ms
 ```
 
 Change default protocol to 'http'
