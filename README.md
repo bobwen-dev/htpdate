@@ -123,7 +123,7 @@ duration = received_at - sent_at
 delta = server_time - received_at - duration / 2
 ```
 
-There is one more error to consider. Imagine you get a Date value of `23` seconds, which could be `23.000` seconds, or `23.999` seconds. So we having to give `0.5s` as compensation for the calculation.
+There is one more error to consider. Imagine you get a Date value of `23` seconds, which could be `23.000` seconds, or `23.999` seconds. So we having to give `0.5s` as compensation.
 
 ## License
 
