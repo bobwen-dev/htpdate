@@ -183,8 +183,12 @@ delay = util.promisify (ms, cb) ->
 
 
 do ->
-  if proxy not in [undefined, ''] 
-    console.debug "Using explicit proxy server #{proxy}"
+  if proxy not in [undefined, '']
+    msg = ''
+    if argv.http2?
+      msg = ", http2 is disabled because the agent library currently used does not support this protocol"
+      delete req_opt.http2
+    console.debug "Using explicit proxy server #{proxy}#{msg}"
   values = []
   for url in argv._
     values.push (await get_time_delta url)...
