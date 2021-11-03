@@ -123,7 +123,7 @@ duration = received_at - sent_at
 delta = server_time - received_at - duration / 2
 ```
 
-There is one more thing: the precision of `Date`. Imagine you get a Date value of `23 GMT`, which could be `23.000` seconds, or `23.999` seconds. So we give `0.5s` as a compensation.
+There is one more thing: the precision of `Date`. Imagine you get a Date end with `23 GMT`, which could be `23.000` seconds, or `23.999` seconds. So we give `0.5s` as a compensation.
 
 ## License
 
