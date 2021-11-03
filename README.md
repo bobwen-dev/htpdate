@@ -116,7 +116,7 @@ Date: Wed, 03 Nov 2021 11:46:19 GMT
 ...
 ```
 
-This `Date: Wed, 03 Nov 2021 11:46:19 GMT` is the moment the website was processing the request, which is in the middle of the time we sent the request and the time we received the response. Simply assuming that the period to send request and receive is equal, we can calculate that the difference between local time and website time:
+This `Date: Wed, 03 Nov 2021 11:46:19 GMT` is the moment the website was processing the request, which is between the time we sent the request and the time we received the response. Simply assuming that the period to send request and receive is equal, we can calculate that the difference between local time and website time:
 
 ```js
 duration = received_at - sent_at
