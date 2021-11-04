@@ -7,7 +7,7 @@ A tool to synchronize system time from web servers, for linux, windows and macos
 ## But, why not NTP?
 
 - Websites are everywhere in the world, NTP servers are scarce that the access is centralized.
-- `htpdate` can be used as a backup When you fail to access NTP.
+- `htpdate` can be used as a backup.
 - There are always cases where the device cannot use NTP.
 
 ## Examples
