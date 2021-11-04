@@ -2,6 +2,10 @@
 
 A tool to synchronize system time from web servers, for linux, windows and macos. [Download](https://github.com/bobwen-dev/htpdate/releases)
 
+## But, why not NTP?
+
+There are always cases where the device cannot connect to the NTP server.
+
 ## Examples
 
 Synchronize time from multiple URLs
