@@ -32,14 +32,13 @@ HEAD https://nodejs.org
 Median: 367301.5 ms
 Adjust time...
 >
-$ wmic os set localdatetime=20211103143426.513000+000
-> Updating property(s) of '\\TESTDEVICE\ROOT\CIMV2:Win32_OperatingSystem=@'
+$ time 13:22:42.28 && date 11-04-21
+>
 $ exit
-> Property(s) update successful.
->
->
 Done
 ```
+
+Note: Windows users need to be aware of the date format in their region. Default format is `MM-DD-YY`, users in non-U.S. regions may need to customize it with the -C parameter, eg. `[time ]HH[:]mm[:]ss[.]SS[ && date ]YY[-]MM[-]DD`.
 
 Query from multiple URLs
 
