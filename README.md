@@ -147,7 +147,7 @@ npm run build
 
 Website returns a header `Date` in each response, like this:
 
-```
+```text
 HTTP/2 200
 Content-Type: text/html; charset=utf-8
 Date: Wed, 03 Nov 2021 11:46:19 GMT
