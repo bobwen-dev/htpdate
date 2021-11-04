@@ -2,6 +2,8 @@
 
 A tool to synchronize system time from web servers, for linux, windows and macos. [Download](https://github.com/bobwen-dev/htpdate/releases)
 
+`htpdate` provides time calibration with second-level accuracy.
+
 ## But, why not NTP?
 
 There are always cases where the device cannot connect to the NTP server.
