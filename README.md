@@ -38,7 +38,7 @@ Done
 Query from multiple URLs
 
 ```text
-$ coffee index.coffee -c 5 -v www.pool.ntp.org www.openssl.org
+$ htpdate -c 5 -v www.pool.ntp.org www.openssl.org
 HEAD https://www.pool.ntp.org
     #1:    -419 ms  DNS:   95 TCP:   27 TSL:   43 Send:    3 Recv:   38
     #2:    +403 ms  DNS:    0 TCP:    0 TSL:    0 Send:    1 Recv:   26
