@@ -2,7 +2,7 @@
 
 A tool to synchronize system time from web servers, for linux, windows and macos. [Download](https://github.com/bobwen-dev/htpdate/releases)
 
-`htpdate` provides time calibration with second-level accuracy.
+`htpdate` provides time calibration with `0.5` second accuracy.
 
 ## But, why not use ntp?
 
