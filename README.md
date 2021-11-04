@@ -152,7 +152,7 @@ npm run build
 
 ## The principle
 
-Website returns a header `Date` in each response, like this:
+According to the definition of [rfc7230](https://datatracker.ietf.org/doc/html/rfc7230)/[2822](https://datatracker.ietf.org/doc/html/rfc2822)/[2616](https://tools.ietf.org/html/rfc2616), website places a `Date` field in the response header, like this:
 
 ```text
 HTTP/2 200
