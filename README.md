@@ -40,7 +40,7 @@ Done
 
 Note: Windows users need to be aware of the date format in their region. Default format(from [dayjs](https://day.js.org/docs/en/display/format)) is `MM-DD-YY`, users in non-U.S. regions may need to customize it with the `-C` parameter, eg:
 
-`[time ]HH[:]mm[:]ss[.]SS[ && date ]YY[-]MM[-]DD`.
+`htpdate -s -C "[time ]HH[:]mm[:]ss[.]SS[ && date ]YY[-]MM[-]DD" github.com`.
 
 Query from multiple URLs
 
