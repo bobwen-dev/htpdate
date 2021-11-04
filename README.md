@@ -89,9 +89,9 @@ htpdate -s www.pool.ntp.org
  -c, --count            The number of requests for each URL
                         Default: 4
 
- -C, --command          Command to adjust system time, in https://day.js.org/ UTC format
-                        Default(Linux/Mac): '[date --utc -s ]YYYY[-]MM[-]DDTHH[:]mm[:]ss[.]SSS'
-                        Default(Windows): '[wmic os set localdatetime=]YYYYMMDDHHmmss[.]SSS[000][+000]'
+ -C, --command          Command to adjust system time, in https://day.js.org/ format
+                        Default(Linux/Mac): '[date -s ]YYYY[-]MM[-]DDTHH[:]mm[:]ss[.]SSS'
+                        Default(Windows): '[time ]HH[:]mm[:]ss[.]SS[ && date ]MM[-]DD[-]YY'
 
  -h, --help             This help text
                         Default: false
