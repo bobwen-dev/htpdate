@@ -98,8 +98,13 @@ agent_opt = {
   keepAliveMsecs: 60000,
   maxSockets: 1,
 }
-proxy = process.env.http_proxy || process.env.https_proxy
-agent = if proxy not in [undefined, '']
+proxy = (process.env.http_proxy or process.env.https_proxy or '').trim()
+agent = if proxy is ''
+  {
+    http:  new Agent agent_opt
+    https: new Agent.HttpsAgent agent_opt
+  }
+else
   agent_opt = {
     agent_opt...
     freeSocketTimeout: 30000
@@ -108,11 +113,6 @@ agent = if proxy not in [undefined, '']
   {
     http:  new HttpProxyAgent  agent_opt
     https: new HttpsProxyAgent agent_opt
-  }
-else
-  {
-    http:  new Agent agent_opt
-    https: new Agent.HttpsAgent agent_opt
   }
 
 req_opt = {
@@ -170,7 +170,7 @@ get_time_delta = (url) ->
     else
       details = "  DNS:" + "#{r.timings.phases.dns}".padStart 5
       details += " TCP:" +  "#{r.timings.phases.tcp}".padStart 5
-      details += " TSL:" + "#{if r.timings.phases.tls? then r.timings.phases.tls else ''}".padStart 5
+      details += " TSL:" + "#{if r.timings.phases.tls? then r.timings.phases.tls else '-'}".padStart 5
       details += " Send:" + "#{r.timings.upload - upload_at}".padStart 5
       details += " Recv:" + "#{r.timings.response - r.timings.upload}".padStart 5
       console.log "#{step}#{delta_text}#{details}"
@@ -183,7 +183,7 @@ delay = util.promisify (ms, cb) ->
 
 
 do ->
-  if proxy not in [undefined, '']
+  if proxy isnt ''
     msg = ''
     if argv.http2
       msg = ", http2 is disabled because the agent library currently used does not support this protocol"
