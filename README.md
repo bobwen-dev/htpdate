@@ -4,11 +4,11 @@ A tool to synchronize system time from web servers, for linux, windows and macos
 
 `htpdate` provides time calibration with second-level accuracy.
 
-## But, why not NTP?
+## But, why not use ntp?
 
-- Websites are everywhere in the world, NTP servers are scarce that the access is centralized.
+- Websites are everywhere in the world, ntp servers are scarce that the access is centralized.
 - `htpdate` can be used as a backup measure.
-- There are always cases where the device cannot use NTP.
+- There are always cases where the device cannot use ntp.
 
 ## Examples
 
@@ -163,14 +163,14 @@ Date: Wed, 03 Nov 2021 11:46:19 GMT
 ...
 ```
 
-This `Date: Wed, 03 Nov 2021 11:46:19 GMT` is the moment the website was processing the request, which is between the time we sent the request and the time we received the response. Simply assuming that the period to send request and receive is equal, we can calculate that the difference between local time and website time:
+This field `Date: Wed, 03 Nov 2021 11:46:19 GMT` is the moment the website was processing the request, which is between the time we sent the request and the time we received the response. Simply assuming that the period to send request and receive is equal, we can calculate that the difference between local time and website time:
 
 ```text
 duration = received_at - sent_at
 delta = server_time - received_at - duration / 2
 ```
 
-There is one more thing: the precision of `Date`. Imagine you get a Date end with `:23 GMT`, which could be `23.000` seconds, or `23.999` seconds. So we give `+0.5s` as a compensation.
+There is one more thing: the precision of the field. Imagine we get a value end with `:23 GMT`, which could be `23.000` seconds, or `23.999` seconds. So we give `+0.5s` as a compensation.
 
 ## License
 
