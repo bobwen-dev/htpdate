@@ -32,7 +32,8 @@ adjust_time = (delta) ->
 
 COMMANDS = {
   win32: '[time ]HH[:]mm[:]ss[.]SS[ && date ]MM[-]DD[-]YY'
-	# FIXME linux command date or timedatectl cannot process the millisecond parts (.SSS)
+  # FIXME linux command date or timedatectl cannot process the millisecond parts (.SSS)
+  #  we can wait for a whole second tick to solve the problem
   linux: '[date +%FT%T -s ]YYYY[-]MM[-]DDTHH[:]mm[:]ss[.]SSS'
 }
 adjust_time.command = COMMANDS[platform] or COMMANDS.linux
