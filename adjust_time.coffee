@@ -1,6 +1,7 @@
 util = require 'util'
 { spawn } = require 'child_process'
 dayjs = require 'dayjs'
+delay = require './delay'
 dayjs.extend require './dayjs_format_ms'
 platform = require('os').platform()
 
@@ -24,17 +25,30 @@ adjust_time = (delta) ->
     shell.stdin.write "#{cmd}\n", (p...) ->
       await wait_data() if platform in ['win32']
       cb p...
-  await wait_data() if platform in ['win32']
-  cmd = dayjs().add(delta, 'ms').format adjust_time.command
+  if platform in ['win32']
+    await wait_data()
+    new_time = dayjs().add(delta, 'ms')
+    cmd = new_time.format adjust_time.command
+  else
+    adjust_time.command = adjust_time.command.replace /ss\.S+/, 'ss'
+    new_time = dayjs().add(delta, 'ms')
+    ms = new_time.get('millisecond')
+    if ms > 0
+      wait_time = 1000 - ms
+      new_time = new_time.add(wait_time, 'ms')
+      delay wait_time
+    cmd = new_time.format adjust_time.command
   await input_line cmd
   await input_line 'exit'
 
 
 COMMANDS = {
-  win32: '[time ]HH[:]mm[:]ss[.]SS[ && date ]MM[-]DD[-]YY'
-  # FIXME linux command date or timedatectl cannot process the millisecond parts (.SSS)
-  #  we can wait for a whole second tick to solve the problem
-  linux: '[date +%FT%T -s ]YYYY[-]MM[-]DDTHH[:]mm[:]ss[.]SSS'
+  # FIXME get the perfect win32 command with right format
+  # yes I got it, weird but effective
+  # reg query "HKEY_CURRENT_USER\Control Panel\International" /v sShortDate
+  # various formats need to be recognized...
+  win32: '[time ]HH:mm:ss.SS[ && date ]MM-DD-YY'
+  linux: '[date -s ]"YYYY-MM-DD HH:mm:ss"'
 }
 adjust_time.command = COMMANDS[platform] or COMMANDS.linux
 

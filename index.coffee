@@ -1,6 +1,5 @@
 #!/usr/bin/env coffee
 
-util = require 'util'
 got = require 'got'
 Agent = require 'agentkeepalive'
 { HttpProxyAgent, HttpsProxyAgent } = require('hpagent')
@@ -8,6 +7,7 @@ dayjs = require 'dayjs'
 info = require './package.json'
 median = require './median'
 adjust_time = require './adjust_time'
+delay = require './delay'
 
 
 argv = require('./argv') {
@@ -175,11 +175,6 @@ get_time_delta = (url) ->
       details += " Recv:" + "#{r.timings.response - r.timings.upload}".padStart 5
       console.log "#{step}#{delta_text}#{details}"
     delta
-
-
-delay = util.promisify (ms, cb) ->
-  return cb() if ms <= 0
-  setTimeout cb, ms
 
 
 do ->
