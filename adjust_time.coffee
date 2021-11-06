@@ -47,6 +47,7 @@ COMMANDS = {
   # yes I got it, weird but effective
   # reg query "HKEY_CURRENT_USER\Control Panel\International" /v sShortDate
   # various formats need to be recognized...
+  #* @see # https://calendars.wikia.org/wiki/Date_format_by_country
   win32: '[time ]HH:mm:ss.SS[ && date ]MM-DD-YY'
   linux: '[date -s ]"YYYY-MM-DD HH:mm:ss"'
 }
