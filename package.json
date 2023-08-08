@@ -1,6 +1,6 @@
 {
   "name": "htpdate",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a tool to synchronize system time from web servers",
   "keywords": [
     "htp",
@@ -23,44 +23,41 @@
     "url": "git+https://github.com/bobwen-dev/htpdate.git"
   },
   "scripts": {
-    "compile": "npx coffee -bc --no-header ./",
+    "compile": "coffee -bc --no-header ./",
     "clean": "rm *.js",
-    "b": "npx nexe -i index.js -r node_modules/**/package.json",
-    "b-win-x86": "npm run b -- -t windows-x86-14.15.3 -o dists/htpdate-windows-x86.exe",
-    "b-win-x64": "npm run b -- -t windows-x64-14.17.0 -o dists/htpdate-windows-x64.exe",
-    "b-linux-x64": "npm run b -- -t linux-x64-14.15.3 -o dists/htpdate-linux-x64",
-    "b-linux-arm64": "npm run b -- -t linux-arm64-14.15.4 -o dists/htpdate-linux-arm64",
-    "b-linux-armv7l": "npm run b -- -t linux-arm-14.18.1 -o dists/htpdate-linux-armv7l",
-    "b-mac-x64": "npm run b -- -t mac-x64-14.15.3 -o dists/htpdate-mac-x64",
-    "b-all": "npm run b-win-x86 && npm run b-win-x64 && npm run b-linux-x64 && npm run b-linux-arm64 && npm run b-linux-armv7l && npm run b-mac-x64",
-    "c-win-x86": "cd dists && cp htpdate-windows-x86.exe htpdate.exe && 7z a htpdate-windows-x86.7z htpdate.exe && rm -rf htpdate.exe",
-    "c-win-x64": "cd dists && cp htpdate-windows-x64.exe htpdate.exe && 7z a htpdate-windows-x64.7z htpdate.exe && rm -rf htpdate.exe",
+    "b": "nexe -i index.js -r node_modules/**/package.json",
+    "b-win-x86": "npm run b -- -t windows-x86-18.12.1 -o dists/htpdate-windows-x86.exe",
+    "b-win-x64": "npm run b -- -t windows-x64-18.12.1 -o dists/htpdate-windows-x64.exe",
+    "b-linux-x64": "npm run b -- -t linux-x64-18.12.1 -o dists/htpdate-linux-x64",
+    "b-linux-arm64": "npm run b -- -t linux-arm64-18.12.1 -o dists/htpdate-linux-arm64",
+    "b-linux-armv7l": "npm run b -- -t linux-arm-18.12.1 -o dists/htpdate-linux-armv7l",
+    "b-mac-x64": "npm run b -- -t mac-x64-18.12.1 -o dists/htpdate-mac-x64",
+    "c-win-x86": "cd dists && copy htpdate-windows-x86.exe htpdate.exe && 7z a htpdate-windows-x86.7z htpdate.exe && del -rf htpdate.exe",
+    "c-win-x64": "cd dists && copy htpdate-windows-x64.exe htpdate.exe && 7z a htpdate-windows-x64.7z htpdate.exe && del -rf htpdate.exe",
     "c-linux-x64": "cd dists && cp htpdate-linux-x64 htpdate && 7z a htpdate-linux-x64.7z htpdate && rm -rf htpdate",
     "c-linux-arm64": "cd dists && cp htpdate-linux-arm64 htpdate && 7z a htpdate-linux-arm64.7z htpdate && rm -rf htpdate",
     "c-linux-armv7l": "cd dists && cp htpdate-linux-armv7l htpdate && 7z a htpdate-linux-armv7l.7z htpdate && rm -rf htpdate",
     "c-mac-x64": "cd dists && cp htpdate-mac-x64 htpdate && 7z a htpdate-mac-x64.7z htpdate && rm -rf htpdate",
-    "compress": "npm run c-win-x86 && npm run c-win-x64 && npm run c-linux-x64 && npm run c-linux-arm64 && npm run c-linux-armv7l && npm run c-mac-x64",
-    "build": "npm run compile && npm run b-all && npm run clean",
-    "test": "npx coffee index.coffee www.pool.ntp.org"
+    "test": "coffee index.coffee www.pool.ntp.org"
   },
   "main": "index.js",
   "bin": {
     "htpdate": "index.coffee"
   },
   "engines": {
-    "node": ">=10.19.0"
+    "node": ">=18.12.0"
   },
   "dependencies": {
-    "agentkeepalive": "^4.1.4",
-    "dayjs": "^1.10.7",
-    "got": "^11.8.0",
-    "hpagent": "^0.1.2",
-    "minimist": "^1.2.5",
+    "agentkeepalive": "^4.5.0",
+    "dayjs": "^1.11.9",
+    "got": "^13.0.0",
+    "hpagent": "^1.2.0",
+    "minimist": "^1.2.8",
     "minimist-options": "^4.1.0",
-    "natural-orderby": "^2.0.3"
+    "natural-orderby": "^3.0.2"
   },
   "devDependencies": {
-    "coffeescript": "^2.5.1",
+    "coffeescript": "^2.7.0",
     "nexe": "^4.0.0-beta.16"
   }
 }
