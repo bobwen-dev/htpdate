@@ -38,24 +38,19 @@ htpdate [options...] URLs...
 
 ### Options
 
-- `-c, --count`: The number of requests for each URL. Default: 4.
-- `-C, --command`: Command to adjust system time, in [https://day.js.org/](https://day.js.org/) format.
-  - Default (Linux/Mac): `'[date -s ]YYYY[-]MM[-]DDTHH[:]mm[:]ss[.]SSS'`
-  - Default (Windows): `'[time ]HH[:]mm[:]ss[.]SS[ && date ]MM[-]DD[-]YY'`
-- `-h, --help`: Display this help text. Default: false.
-- `--http2`: Try to choose either HTTP/1.1 or HTTP/2 depending on the ALPN protocol. Default: false.
+- `-c, --count`: The number of requests for each URL. Default: 5.
 - `-i, --interval`: The minimum milliseconds between requests. Default: 500.
-- `-k, --insecure`: Allow insecure server connections when using HTTPS. Default: false.
+- `-T, --timeout`: Total timeout value, milliseconds. Default: 100000.
+- `-R, --transfer-timeout`: Transfer timeout value, milliseconds. Default: 60000.
+- `-D, --dns-timeout`: The timeout value of the domain name resolution, milliseconds. Default: 30000.
+- `-u, --user-agent`: Browser user agent name. Default: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'.
 - `-m, --method`: HTTP method. Default: 'HEAD'.
-- `-p, --protocol`: Use this protocol when no protocol is specified in the URL. Default: 'https'.
 - `-r, --retry`: Number of retries. Default: 0.
-- `-R, --redirect`: If redirect responses should be followed. Default: false.
-- `-s, --set`: Adjust system time if necessary. Default: false.
+- `-k, --insecure`: Allow insecure server connections when using HTTPS. Default: false.
+- `-a, --adjust`: Adjust system time if necessary. Default: false.
 - `-t, --threshold`: At least how many milliseconds are considered to adjust system time. Default: 1500.
-- `-T, --timeout`: Total timeout value, milliseconds. Default: 6000.
-- `-u, --user-agent`: Browser user agent name.
-- `-V, --version`: Display the version of htpdate and exit. Default: false.
-- `-v, --verbose`: Make the operation more talkative. Default: false.
+- `-h, --help`: Display this help text.
+- `-V, --version`: Display the version of htpdate and exit.
 
 ## Time Synchronization Principle
 
@@ -96,19 +91,6 @@ On Linux and macOS, htpdate uses the `date` command to adjust the system time.
 ## License
 
 This project is licensed under the AGPL-3.0 License. See the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
-## Acknowledgments
-
-- Thanks to the original CoffeeScript version for the inspiration.
-- Special thanks to the contributors and users of htpdate.
-
-## Contact
-
-For any questions or feedback, please open an issue on GitHub.
 
 ---
 
