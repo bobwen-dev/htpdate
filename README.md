@@ -82,7 +82,7 @@ This `Date` field represents the moment the website processed the request, which
 
 ### Windows
 
-On Windows, htpdate uses the `reg` command to query the short date format from the registry and constructs the appropriate date and time adjustment commands.
+On Windows, htpdate uses the `reg` command to query the short date format from the registry and constructs the appropriate `date` and `time` adjustment commands.
 
 ### Linux/MacOS
 
