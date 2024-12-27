@@ -1,0 +1,119 @@
+.TH HTPDATE 1 "December 27, 2024" "1.0.4rc1" "User Commands"
+.SH NAME
+htpdate \- Synchronize system time from web servers
+.SH SYNOPSIS
+.B htpdate
+[options...]
+.I URLs...
+.SH DESCRIPTION
+.B htpdate
+is a tool to synchronize system time from web servers, supporting Windows, Linux, BSD, and macOS. It provides time calibration with 0.5-second accuracy and can be used as a backup measure or in cases where NTP (Network Time Protocol) is not available.
+.SH OPTIONS
+.TP
+.B \-c, \-\-count
+The number of requests for each URL. Default: 5.
+.TP
+.B \-i, \-\-interval
+The minimum milliseconds between requests. Default: 500.
+.TP
+.B \-T, \-\-timeout
+Total timeout value, milliseconds. Default: 100000.
+.TP
+.B \-R, \-\-transfer-timeout
+Transfer timeout value, milliseconds. Default: 60000.
+.TP
+.B \-D, \-\-dns-timeout
+The timeout value of the domain name resolution, milliseconds. Default: 30000.
+.TP
+.B \-u, \-\-user-agent
+Browser user agent name. Default: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'.
+.TP
+.B \-m, \-\-method
+HTTP method. Default: 'HEAD'.
+.TP
+.B \-r, \-\-retry
+Number of retries. Default: 0.
+.TP
+.B \-k, \-\-insecure
+Allow insecure server connections when using HTTPS. Default: false.
+.TP
+.B \-a, \-\-adjust
+Adjust system time if necessary. Default: false.
+.TP
+.B \-t, \-\-threshold
+At least how many milliseconds are considered to adjust system time. Default: 1500.
+.TP
+.B \-h, \-\-help
+Display this help text.
+.TP
+.B \-V, \-\-version
+Display the version of htpdate and exit.
+.SH TIME SYNCHRONIZATION PRINCIPLE
+According to the definition of RFC 7230/2822/2616, websites include a
+.B Date
+field in the response header, like this:
+.P
+.nf
+HTTP/2 200
+Content-Type: text/html; charset=utf-8
+Date: Wed, 03 Nov 2021 11:46:19 GMT
+...
+.fi
+.P
+This
+.B Date
+field represents the moment the website processed the request, which is between the time we sent the request and the time we received the response. By assuming that the time to send the request and receive the response is equal, we can calculate the difference between local time and website time:
+.P
+1.
+.B Duration Calculation
+:
+.P
+.nf
+duration = received_at - sent_at
+.fi
+.P
+2.
+.B Time Difference Calculation
+:
+.P
+.nf
+delta = server_time - received_at - duration / 2
+.fi
+.P
+3.
+.B Precision Compensation
+:
+Since the precision of the
+.B Date
+field can vary (e.g.,
+.B :23 GMT
+could be
+.B 23.000
+seconds or
+.B 23.999
+seconds), we add a compensation of +0.5 seconds.
+.SH PLATFORM-SPECIFIC HANDLING
+.SS Windows
+On Windows,
+.B htpdate
+uses the
+.B reg
+command to query the short date format from the registry and constructs the appropriate
+.B date
+and
+.B time
+adjustment commands.
+.SS Linux/MacOS
+On Linux and macOS,
+.B htpdate
+uses the
+.B date
+command to adjust the system time.
+.SH LICENSE
+This project is licensed under the AGPL-3.0 License. See the
+.B LICENSE
+file for details.
+.SH CONTACT
+For any questions or feedback, please open an issue on GitHub.
+.SH AUTHOR
+Written by [bobwen].
