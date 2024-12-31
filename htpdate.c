@@ -480,11 +480,6 @@ int qsort_compare(const void *a, const void *b) {
     return (diff > 0.0) - (diff < 0.0);
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
 void adjust_system_time(TIME_T delta) {
 #ifdef _WIN32
     // Windows specific code
