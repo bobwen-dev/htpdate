@@ -13,7 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: system update
+      run: sudo apt-get update
     - name: Install system dependencies
-      run: sudo apt-get install libcurl4-openssl-dev
+      run: sudo apt-get install -y --fix-missing libcurl4-openssl-dev
     - name: build
       run: gcc -o htpdate htpdate.c -lcurl
