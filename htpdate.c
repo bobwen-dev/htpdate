@@ -628,9 +628,14 @@ int main(int argc, char *argv[]) {
         char median_str[50];
         sprintf(median_str, "%s%lld ms", median_delta >= 0 ? "+" : "", median_delta);
         printf("median:\t%*s\n", max_width, median_str);
-        if (cmd_options.adjust && abs(median_delta) >= cmd_options.threshold) {
-            adjust_system_time(median_delta);
-            printf("System time adjusted by %s ms\n", median_str);
+        if (llabs(median_delta) >= cmd_options.threshold) {
+            if (cmd_options.adjust) {
+                adjust_system_time(median_delta);
+            }
+            else {
+                printf("(dry-run: use -a to adjust) ");
+            }
+            printf("System time to be adjusted by %s\n", median_str);
         } else {
             printf("System time adjustment not necessary\n");
         }
