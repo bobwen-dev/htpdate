@@ -40,6 +40,15 @@ Allow insecure server connections when using HTTPS. Default: false.
 .B \-a, \-\-adjust
 Adjust system time if necessary. Default: false.
 .TP
+.B \-s, \-\-use\-sudo
+Use
+.B sudo
+for the
+.B date
+command; only applies with
+.BR \-a ,
+and is ignored on Windows. Default: false.
+.TP
 .B \-t, \-\-threshold
 At least how many milliseconds are considered to adjust system time. Default: 1500.
 .TP
@@ -108,7 +117,34 @@ On Linux and macOS,
 .B htpdate
 uses the
 .B date
-command to adjust the system time.
+command to adjust the system time, which requires root privileges. Run
+.B htpdate
+as root, or use
+.B \-s
+to run only the
+.B date
+command through
+.BR sudo .
+With
+.BR \-s ,
+.B htpdate
+only calls
+.B sudo
+when an adjustment is needed. It runs
+.B sudo \-v
+just before setting the time, so time spent at the password prompt does not affect the time that gets set. It then runs
+.BR "sudo \-n date" ,
+which fails instead of prompting a second time. As a result,
+.B \-s
+fails if
+.B sudo
+asks for a password on every call
+.RB ( timestamp_timeout=0
+in sudoers).
+.PP
+If the system time cannot be adjusted,
+.B htpdate
+prints an error and exits with a non-zero status.
 .SH LICENSE
 This project is licensed under the AGPL-3.0 License. See the
 .B LICENSE

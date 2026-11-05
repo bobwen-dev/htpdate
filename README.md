@@ -48,6 +48,7 @@ htpdate [options...] URLs...
 - `-r, --retry`: Number of retries. Default: 0.
 - `-k, --insecure`: Allow insecure server connections when using HTTPS. Default: false.
 - `-a, --adjust`: Adjust system time if necessary. Default: false.
+- `-s, --use-sudo`: Use `sudo` for the `date` command; only applies with `-a`, and is ignored on Windows. Default: false.
 - `-t, --threshold`: At least how many milliseconds are considered to adjust system time. Default: 1500.
 - `-h, --help`: Display this help text.
 - `-V, --version`: Display the version of htpdate and exit.
@@ -86,7 +87,9 @@ On Windows, htpdate uses the `reg` command to query the short date format from t
 
 ### Linux/MacOS
 
-On Linux and macOS, htpdate uses the `date` command to adjust the system time.
+On Linux and macOS, htpdate uses the `date` command to adjust the system time, which requires root privileges. Run htpdate as root, or use `-s` to run only the `date` command through `sudo`. With `-s`, htpdate only calls `sudo` when an adjustment is needed. It runs `sudo -v` just before setting the time, so time spent at the password prompt does not affect the time that gets set. It then runs `sudo -n date`, which fails instead of prompting a second time. As a result, `-s` fails if `sudo` asks for a password on every call (`timestamp_timeout=0` in sudoers).
+
+If the system time cannot be adjusted, htpdate prints an error and exits with a non-zero status.
 
 ## License
 
