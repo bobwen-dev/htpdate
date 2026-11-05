@@ -567,7 +567,7 @@ void adjust_system_time(TIME_T delta) {
     struct tm *tm_info = localtime(&moment);
     snprintf(milliseconds_str, sizeof(milliseconds_str), ".%02d", milliseconds / 10);
 #else
-    struct tm *tm_info = gmtime(&moment);
+    struct tm *tm_info = localtime(&moment);
     snprintf(milliseconds_str, sizeof(milliseconds_str), ".%03d'", milliseconds);
 #endif
 
