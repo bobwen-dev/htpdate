@@ -33,6 +33,7 @@
 #define DEFAULT_REDIRECT false
 #define DEFAULT_INSECURE false
 #define DEFAULT_ADJUST false
+#define DEFAULT_SUDO false
 #define DEFAULT_VERBOSE false
 
 typedef long long TIME_T;
@@ -60,6 +61,7 @@ struct CmdOptions {
     bool help;
     bool version;
     bool adjust;
+    bool sudo;
     int threshold;
 } cmd_options = {
     .count = DEFAULT_COUNT,
@@ -74,6 +76,7 @@ struct CmdOptions {
     .help = false,
     .version = false,
     .adjust = DEFAULT_ADJUST,
+    .sudo = DEFAULT_SUDO,
     .threshold = DEFAULT_THRESHOLD
 };
 
@@ -258,6 +261,7 @@ void print_help() {
         {"-r, --retry", "Number of retries (default: %d)", (const char *[]){(char*)(intptr_t)DEFAULT_RETRY, NULL}, 1},
         {"-k, --insecure", "Allow insecure server connections when using https or wss (default: %s)", (const char *[]){DEFAULT_INSECURE ? "true" : "false", NULL}, 1},
         {"-a, --adjust", "Adjust system time if necessary (default: %s)", (const char *[]){DEFAULT_ADJUST ? "true" : "false", NULL}, 1},
+        {"-s, --use-sudo", "Use 'sudo' for 'date' command (default: %s)", (const char *[]){DEFAULT_SUDO ? "true" : "false", NULL}, 1},
         {"-t, --threshold", "At least how many milliseconds are considered to adjust system time (default: %d)", (const char *[]){(char*)(intptr_t)DEFAULT_THRESHOLD, NULL}, 1},
         {"-h, --help", "Display this help text", (const char *[]){NULL}, 0},
         {"-V, --version", "Display the version of %s-%s and exit", (const char *[]){NULL}, 0}
@@ -284,6 +288,7 @@ void parse_options(int argc, char *argv[]) {
         {"retry", required_argument, 0, 'r'},
         {"insecure", no_argument, 0, 'k'},
         {"adjust", no_argument, 0, 'a'},
+        {"use-sudo", no_argument, 0, 's'},
         {"threshold", required_argument, 0, 't'},
         {"help", no_argument, 0, 'h'},
         {"version", no_argument, 0, 'V'},
@@ -292,7 +297,7 @@ void parse_options(int argc, char *argv[]) {
 
     int option_index = 0;
     int c;
-    while ((c = getopt_long(argc, argv, "c:i:T:R:D:u:m:r:kat:hV", long_options, &option_index)) != -1) {
+    while ((c = getopt_long(argc, argv, "c:i:T:R:D:u:m:r:kast:hV", long_options, &option_index)) != -1) {
         switch (c) {
             case 'c':
                 cmd_options.count = atoi(optarg);
@@ -323,6 +328,9 @@ void parse_options(int argc, char *argv[]) {
                 break;
             case 'a':
                 cmd_options.adjust = true;
+                break;
+            case 's':
+                cmd_options.sudo = true;
                 break;
             case 't':
                 cmd_options.threshold = atoi(optarg);
@@ -480,7 +488,16 @@ int qsort_compare(const void *a, const void *b) {
     return (diff > 0.0) - (diff < 0.0);
 }
 
-void adjust_system_time(TIME_T delta) {
+// Returns 0 on success, non-zero if the system time could not be set
+int adjust_system_time(TIME_T delta) {
+#ifndef _WIN32
+    // Authenticate first: the target time below must not go stale while
+    // sudo waits for a password
+    if (cmd_options.sudo && system("sudo -v") != 0) {
+        return -1;
+    }
+#endif
+
 #ifdef _WIN32
     // Windows specific code
     char date_format[64];
@@ -554,7 +571,12 @@ void adjust_system_time(TIME_T delta) {
     // add time command
     strcat(command_format, " && time %H:%M:%S");
 #else
-    char *command_format = "date -s '%Y-%m-%dT%H:%M:%S";
+    char *command_format;
+    if (cmd_options.sudo)
+        // -n: fail rather than prompt again, which would make the target stale
+        command_format = "sudo -n date -s '%Y-%m-%dT%H:%M:%S";
+    else
+        command_format = "date -s '%Y-%m-%dT%H:%M:%S";
 #endif
 
     // get target time
@@ -567,14 +589,14 @@ void adjust_system_time(TIME_T delta) {
     struct tm *tm_info = localtime(&moment);
     snprintf(milliseconds_str, sizeof(milliseconds_str), ".%02d", milliseconds / 10);
 #else
-    struct tm *tm_info = gmtime(&moment);
+    struct tm *tm_info = localtime(&moment);
     snprintf(milliseconds_str, sizeof(milliseconds_str), ".%03d'", milliseconds);
 #endif
 
     strftime(adjust_cmd, sizeof(adjust_cmd), command_format, tm_info);
     strcat(adjust_cmd, milliseconds_str);
     // printf("run %s\n", adjust_cmd);
-    system(adjust_cmd);
+    return system(adjust_cmd) != 0 ? -1 : 0;
 }
 
 
@@ -608,6 +630,7 @@ int main(int argc, char *argv[]) {
 
     size_t delta_count = 0;
     int max_width = 0;
+    int exit_code = 0;
 
     // Process each URL provided in the command line arguments
     for (int i = optind; i < argc; i++) {
@@ -628,9 +651,15 @@ int main(int argc, char *argv[]) {
         char median_str[50];
         sprintf(median_str, "%s%lld ms", median_delta >= 0 ? "+" : "", median_delta);
         printf("median:\t%*s\n", max_width, median_str);
-        if (cmd_options.adjust && abs(median_delta) >= cmd_options.threshold) {
-            adjust_system_time(median_delta);
-            printf("System time adjusted by %s ms\n", median_str);
+        if (llabs(median_delta) >= cmd_options.threshold) {
+            if (!cmd_options.adjust) {
+                printf("(dry-run: use -a to adjust) System time to be adjusted by %s\n", median_str);
+            } else if (adjust_system_time(median_delta) != 0) {
+                fprintf(stderr, "Failed to adjust system time\n");
+                exit_code = EXIT_FAILURE;
+            } else {
+                printf("System time adjusted by %s\n", median_str);
+            }
         } else {
             printf("System time adjustment not necessary\n");
         }
@@ -639,5 +668,5 @@ int main(int argc, char *argv[]) {
     free(deltas);
     curl_easy_cleanup(curl);
     curl_global_cleanup();
-    return 0;
+    return exit_code;
 }
